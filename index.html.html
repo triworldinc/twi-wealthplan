@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Responsive viewport – keeps original design but adds mobile friendliness -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <!-- UPDATED TITLE: TWI WealthPlan AI™ -->
+    <title>TWI WealthPlan AI™ • Invite Only</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Supabase JavaScript client (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* ---------- ENTIRE ORIGINAL DESIGN PRESERVED – ALL GRADIENTS, GLOWS, ANIMATIONS INTACT ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #0a0b0d;
+            color: #e4e6eb;
+            padding: 24px;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 40% 60%, rgba(59, 130, 246, 0.05) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        /* ---------- AUTH SCREEN (fullscreen, modern, matches design) ---------- */
+        .auth-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #0a0b0d;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .auth-card {
+            max-width: 460px;
+            width: 100%;
+            background: rgba(15, 16, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 32px;
+            padding: 48px 40px;
+            backdrop-filter: blur(40px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            position: relative;
+            z-index: 10001;
+        }
+        .auth-logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 32px;
+        }
+        .auth-logo .logo-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            box-shadow: 0 12px 32px rgba(99,102,241,0.4);
+        }
+        .auth-title {
+            font-size: 28px;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .auth-sub {
+            text-align: center;
+            color: rgba(228, 230, 235, 0.6);
+            margin-bottom: 32px;
+            font-size: 15px;
+        }
+        .auth-input-group {
+            margin-bottom: 24px;
+        }
+        .auth-input-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            color: rgba(228, 230, 235, 0.8);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .auth-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .auth-input-icon {
+            position: absolute;
+            left: 18px;
+            color: #8b5cf6;
+            z-index: 1;
+            font-size: 16px;
+        }
+        .auth-input-wrapper input {
+            width: 100%;
+            padding: 16px 20px 16px 52px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1.5px solid rgba(139, 92, 246, 0.3);
+            border-radius: 16px;
+            color: #e4e6eb;
+            font-size: 15px;
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: all 0.3s ease;
+        }
+        .auth-input-wrapper input:focus {
+            outline: none;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.2);
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            border-radius: 16px;
+            color: white;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            box-shadow: 0 12px 40px rgba(99, 102, 241, 0.4);
+            margin-top: 16px;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        .auth-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+        .auth-btn:hover::before {
+            left: 100%;
+        }
+        .auth-switch {
+            text-align: center;
+            margin-top: 24px;
+            color: rgba(228, 230, 235, 0.6);
+            font-size: 14px;
+        }
+        .auth-switch span {
+            color: #8b5cf6;
+            font-weight: 700;
+            cursor: pointer;
+            border-bottom: 1px solid transparent;
+            transition: all 0.2s;
+            margin-left: 6px;
+        }
+        .auth-switch span:hover {
+            color: #c4b5fd;
+            border-bottom-color: #8b5cf6;
+        }
+        .auth-message {
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+        .auth-message.error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #f87171;
+            display: block;
+        }
+        .auth-message.success {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            display: block;
+        }
+        .auth-badge {
+            display: inline-block;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #c4b5fd;
+            margin-bottom: 24px;
+            text-align: center;
+            width: 100%;
+        }
+        /* hide main app until auth success */
+        .app-wrapper {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .app-wrapper.visible {
+            display: block;
+            opacity: 1;
+        }
+        /* user menu */
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .user-email {
+            font-size: 13px;
+            color: rgba(228,230,235,0.8);
+            background: rgba(0,0,0,0.3);
+            padding: 8px 16px;
+            border-radius: 100px;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .logout-btn {
+            background: rgba(239,68,68,0.1);
+            border: 1px solid rgba(239,68,68,0.3);
+            color: #fca5a5;
+            padding: 8px 20px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logout-btn:hover {
+            background: rgba(239,68,68,0.2);
+            border-color: #ef4444;
+            color: #fff;
+        }
+        /* ---------- rest of your ORIGINAL design (unchanged) ---------- */
+        .header {
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 40px;
+            background: rgba(15, 16, 20, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            backdrop-filter: blur(40px);
+        }
+        .logo {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .ai-badge {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            padding: 10px 24px;
+            border-radius: 100px;
+            font-size: 14px;
+            font-weight: 700;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+        }
+        .ai-badge-pulse {
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.6;transform:scale(1.2)} }
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .panel {
+            background: rgba(15, 16, 20, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            padding: 48px;
+            backdrop-filter: blur(40px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .panel-title {
+            font-size: 36px;
+            font-weight: 800;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+        .user-type-selector {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 48px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .user-type-btn {
+            flex: 1;
+            padding: 16px 28px;
+            border: none;
+            border-radius: 12px;
+            background: transparent;
+            color: rgba(228, 230, 235, 0.5);
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .user-type-btn.active {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+            box-shadow: 0 8px 24px rgba(99,102,241,0.4);
+            transform: translateY(-1px);
+        }
+        .section { margin-bottom:40px; padding-bottom:40px; border-bottom:1px solid rgba(255,255,255,0.06); }
+        .section-title { font-size:20px; font-weight:700; margin-bottom:28px; color:#e4e6eb; display:flex; align-items:center; gap:12px; letter-spacing:-0.3px; }
+        .form-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-bottom:24px; }
+        .form-grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-bottom:20px; }
+        .input-group { margin-bottom:24px; }
+        .input-group label { display:block; margin-bottom:10px; font-size:13px; font-weight:700; color:rgba(228,230,235,0.8); letter-spacing:0.5px; text-transform:uppercase; }
+        .input-wrapper { position:relative; display:flex; align-items:center; }
+        .input-icon { position:absolute; left:18px; color:#8b5cf6; z-index:1; font-size:16px; }
+        input, select {
+            width:100%; padding:16px 20px 16px 52px; background:rgba(0,0,0,0.4); border:1.5px solid rgba(255,255,255,0.1);
+            border-radius:14px; color:#e4e6eb; font-size:15px; font-weight:600; font-family:'Plus Jakarta Sans',sans-serif; transition:all 0.3s;
+        }
+        input:focus, select:focus { outline:none; border-color:#8b5cf6; background:rgba(0,0,0,0.5); box-shadow:0 0 0 4px rgba(139,92,246,0.15); }
+        select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 18px center; padding-right:52px; cursor:pointer; }
+        .lifestyle-card { background:linear-gradient(135deg, rgba(99,102,241,0.08), rgba(139,92,246,0.05)); border:1px solid rgba(139,92,246,0.2); border-radius:20px; padding:32px; margin-bottom:24px; }
+        .card-title { font-size:18px; font-weight:700; margin-bottom:24px; color:#e4e6eb; display:flex; align-items:center; gap:12px; letter-spacing:-0.3px; }
+        .calculate-btn {
+            width:100%; padding:20px; background:linear-gradient(135deg,#6366f1,#8b5cf6); border:none; border-radius:16px; color:white;
+            font-size:16px; font-weight:800; cursor:pointer; transition:all 0.3s; display:flex; align-items:center; justify-content:center; gap:12px;
+            box-shadow:0 12px 40px rgba(99,102,241,0.4); margin-top:32px; letter-spacing:0.5px; font-family:'Plus Jakarta Sans',sans-serif; position:relative; overflow:hidden;
+        }
+        .calculate-btn::before { content:''; position:absolute; top:0; left:-100%; width:100%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.2),transparent); transition:left 0.5s; }
+        .calculate-btn:hover::before { left:100%; }
+        .calculate-btn:hover { transform:translateY(-2px); box-shadow:0 16px 50px rgba(99,102,241,0.5); }
+        .results-header { text-align:center; margin-bottom:40px; padding-bottom:32px; border-bottom:1px solid rgba(255,255,255,0.06); }
+        .ai-powered-badge { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg,#6366f1,#8b5cf6); color:white; padding:12px 28px; border-radius:100px; font-size:13px; font-weight:800; letter-spacing:1px; text-transform:uppercase; margin-bottom:20px; box-shadow:0 4px 20px rgba(99,102,241,0.3); }
+        .big-number-container { background:linear-gradient(135deg, rgba(99,102,241,0.12), rgba(139,92,246,0.08)); border:2px solid rgba(139,92,246,0.3); border-radius:24px; padding:48px 32px; margin-bottom:40px; text-align:center; position:relative; overflow:hidden; }
+        .big-number-container::before { content:''; position:absolute; top:-50%; left:-50%; width:200%; height:200%; background:radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%); animation:rotate 20s linear infinite; }
+        @keyframes rotate { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+        .big-number-label { font-size:13px; text-transform:uppercase; letter-spacing:2px; color:rgba(228,230,235,0.6); margin-bottom:16px; font-weight:700; position:relative; z-index:1; }
+        .big-number { font-size:72px; font-weight:900; background:linear-gradient(135deg,#fff,#c4b5fd); -webkit-background-clip:text; -webkit-text-fill-color:transparent; line-height:1; margin-bottom:16px; letter-spacing:-2px; position:relative; z-index:1; }
+        .big-number-sub { font-size:15px; color:rgba(228,230,235,0.7); font-weight:500; position:relative; z-index:1; }
+        .ai-insights-container { background:rgba(0,0,0,0.3); border:1px solid rgba(139,92,246,0.2); border-radius:20px; padding:32px; margin-bottom:40px; }
+        .ai-insights-title { font-size:18px; font-weight:700; margin-bottom:24px; color:#e4e6eb; display:flex; align-items:center; gap:12px; }
+        .insight-card { background:rgba(0,0,0,0.4); border-left:3px solid #8b5cf6; border-radius:12px; padding:20px; margin-bottom:16px; display:flex; gap:16px; align-items:start; transition:all 0.3s; }
+        .insight-card:hover { transform:translateX(4px); border-left-color:#c4b5fd; }
+        .insight-card.critical { border-left-color:#ef4444; background:rgba(239,68,68,0.05); }
+        .insight-card.success { border-left-color:#10b981; background:rgba(16,185,129,0.05); }
+        .insight-icon { flex-shrink:0; width:40px; height:40px; background:linear-gradient(135deg,#6366f1,#8b5cf6); border-radius:10px; display:flex; align-items:center; justify-content:center; color:white; font-size:18px; }
+        .insight-content { flex:1; }
+        .insight-title { font-size:15px; font-weight:700; color:#e4e6eb; margin-bottom:6px; }
+        .insight-message { font-size:14px; color:rgba(228,230,235,0.7); line-height:1.5; margin-bottom:12px; }
+        .insight-action { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:700; color:#8b5cf6; cursor:pointer; transition:all 0.2s; }
+        .insight-action:hover { color:#c4b5fd; gap:8px; }
+        .progress-container { background:rgba(0,0,0,0.3); border-radius:20px; padding:32px; margin-bottom:40px; border:1px solid rgba(255,255,255,0.06); }
+        .progress-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; }
+        .progress-title { font-size:14px; font-weight:700; color:rgba(228,230,235,0.8); text-transform:uppercase; letter-spacing:1px; }
+        .progress-percent { font-size:36px; font-weight:900; background:linear-gradient(135deg,#8b5cf6,#c4b5fd); -webkit-background-clip:text; -webkit-text-fill-color:transparent; letter-spacing:-1px; }
+        .progress-bar { height:12px; background:rgba(0,0,0,0.5); border-radius:100px; overflow:hidden; position:relative; }
+        .progress-fill { height:100%; background:linear-gradient(90deg,#6366f1,#8b5cf6,#c4b5fd); border-radius:100px; transition:width 0.8s cubic-bezier(0.4,0,0.2,1); position:relative; overflow:hidden; }
+        .progress-fill::after { content:''; position:absolute; top:0; left:0; right:0; bottom:0; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent); animation:shimmer 2s infinite; }
+        @keyframes shimmer { 0%{transform:translateX(-100%)} 100%{transform:translateX(100%)} }
+        .metrics-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:24px; margin-bottom:40px; }
+        .metric-card { background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:28px; transition:all 0.3s; }
+        .metric-card:hover { transform:translateY(-4px); border-color:rgba(139,92,246,0.3); box-shadow:0 12px 40px rgba(139,92,246,0.2); }
+        .metric-value { font-size:32px; font-weight:900; color:#e4e6eb; margin-bottom:8px; letter-spacing:-1px; }
+        .metric-label { font-size:12px; color:rgba(228,230,235,0.6); text-transform:uppercase; letter-spacing:1px; font-weight:700; }
+        .breakdown { background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.08); border-radius:20px; padding:32px; margin-bottom:40px; }
+        .breakdown-title { font-size:18px; font-weight:700; margin-bottom:24px; color:#e4e6eb; display:flex; align-items:center; gap:12px; }
+        .breakdown-item { display:flex; justify-content:space-between; align-items:center; padding:16px 0; border-bottom:1px solid rgba(255,255,255,0.04); }
+        .breakdown-item:last-child { border-bottom:none; }
+        .breakdown-label { display:flex; align-items:center; gap:12px; color:rgba(228,230,235,0.7); font-size:14px; font-weight:500; }
+        .breakdown-value { font-weight:700; color:#e4e6eb; font-size:16px; }
+        .calculating-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(10,11,13,0.95); flex-direction:column; align-items:center; justify-content:center; z-index:1000; backdrop-filter:blur(20px); }
+        .calculating-overlay.active { display:flex; }
+        .ai-spinner { width:80px; height:80px; border:4px solid rgba(139,92,246,0.2); border-top:4px solid #8b5cf6; border-radius:50%; animation:spin 1s linear infinite; margin-bottom:24px; }
+        @keyframes spin { 0%{transform:rotate(0deg)} 100%{transform:rotate(360deg)} }
+        .calculating-text { font-size:20px; font-weight:700; color:#e4e6eb; margin-bottom:12px; }
+        .calculating-subtext { font-size:14px; color:rgba(228,230,235,0.6); }
+        .hidden { display:none; }
+        .footer { position:relative; z-index:2; max-width:1600px; margin:60px auto 0; padding:32px 40px; background:rgba(15,16,20,0.7); border:1px solid rgba(255,255,255,0.08); border-radius:20px; backdrop-filter:blur(40px); -webkit-backdrop-filter:blur(40px); text-align:center; display:flex; flex-direction:column; gap:12px; box-shadow:0 8px 32px rgba(0,0,0,0.2); }
+        .footer .rights { font-size:15px; font-weight:700; color:#e4e6eb; letter-spacing:0.3px; background:linear-gradient(135deg,#ffffff,#d8b4fe); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+        .footer .twi { font-size:14px; color:rgba(228,230,235,0.8); font-weight:500; border-top:1px solid rgba(139,92,246,0.2); padding-top:12px; margin-top:4px; }
+        @media (max-width:1200px){ .container{grid-template-columns:1fr;} .panel{padding:40px;} }
+        @media (max-width:992px){ body{padding:20px;} .header{padding:20px 28px;} .panel{padding:36px;} .panel-title{font-size:32px;} .big-number{font-size:60px;} .form-grid-3{grid-template-columns:repeat(2,1fr);} }
+        @media (max-width:768px){ body{padding:16px;} .header{flex-direction:column; align-items:flex-start; gap:16px; padding:20px;} .logo{font-size:22px;} .panel{padding:28px 24px;} .panel-title{font-size:28px;} .user-type-selector{flex-direction:row; gap:12px;} .user-type-btn{padding:14px 16px; font-size:14px;} .form-grid,.form-grid-3,.metrics-grid{grid-template-columns:1fr;} .lifestyle-card{padding:24px;} .big-number{font-size:48px;} .big-number-container{padding:36px 20px;} .progress-percent{font-size:28px;} .metric-value{font-size:28px;} .footer{padding:24px 20px;} }
+        @media (max-width:480px){ body{padding:12px;} .header{padding:16px;} .logo{font-size:20px;} .ai-badge{padding:8px 18px; font-size:12px;} .panel{padding:24px 20px;} .panel-title{font-size:24px;} .big-number{font-size:40px;} }
+    </style>
+</head>
+<body>
+
+<!-- ========== SUPABASE AUTH SCREEN (INVITE ONLY) ========== -->
+<div id="authScreen" class="auth-screen">
+    <div class="auth-card">
+        <div class="auth-logo">
+            <div class="logo-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+        </div>
+        <div class="auth-title">TWI WealthPlan AI™</div>
+        <div class="auth-sub">invite‑only • secure • personalized</div>
+        <div class="auth-badge">
+            <i class="fas fa-shield-alt"></i> PRIVATE ACCESS
+        </div>
+        
+        <!-- LOGIN FORM (default) -->
+        <div id="loginForm">
+            <div class="auth-input-group">
+                <label>Email address</label>
+                <div class="auth-input-wrapper">
+                    <i class="fas fa-envelope auth-input-icon"></i>
+                    <input type="email" id="authEmail" placeholder="your@email.com" autocomplete="email">
+                </div>
+            </div>
+            <div class="auth-input-group">
+                <label>Password</label>
+                <div class="auth-input-wrapper">
+                    <i class="fas fa-lock auth-input-icon"></i>
+                    <input type="password" id="authPassword" placeholder="••••••••" autocomplete="current-password">
+                </div>
+            </div>
+            <button class="auth-btn" id="loginBtn">
+                <i class="fas fa-key"></i> Sign In
+            </button>
+            <div class="auth-switch">
+                Don't have an account?<span id="switchToSignup"> Request access</span>
+            </div>
+        </div>
+        
+        <!-- SIGNUP FORM (hidden by default) -->
+        <div id="signupForm" style="display:none;">
+            <div class="auth-input-group">
+                <label>Email address</label>
+                <div class="auth-input-wrapper">
+                    <i class="fas fa-envelope auth-input-icon"></i>
+                    <input type="email" id="signupEmail" placeholder="your@email.com">
+                </div>
+            </div>
+            <div class="auth-input-group">
+                <label>Password</label>
+                <div class="auth-input-wrapper">
+                    <i class="fas fa-lock auth-input-icon"></i>
+                    <input type="password" id="signupPassword" placeholder="create a password">
+                </div>
+            </div>
+            <button class="auth-btn" id="signupBtn">
+                <i class="fas fa-paper-plane"></i> Request Invite
+            </button>
+            <div class="auth-switch">
+                Already have access?<span id="switchToLogin"> Sign in</span>
+            </div>
+        </div>
+        
+        <!-- Auth message (error/success) -->
+        <div id="authMessage" class="auth-message"></div>
+    </div>
+</div>
+
+<!-- ========== MAIN APP (hidden until authenticated) ========== -->
+<div id="appWrapper" class="app-wrapper">
+    <div class="calculating-overlay" id="calculatingOverlay">
+        <div class="ai-spinner"></div>
+        <div class="calculating-text">TWI WealthPlan AI™ is analyzing...</div>
+        <div class="calculating-subtext">Processing millions of scenarios</div>
+    </div>
+
+    <!-- HEADER with user menu (dynamic) -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">
+                <i class="fas fa-brain"></i>
+            </div>
+            TWI WealthPlan AI™
+        </div>
+        <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="ai-badge">
+                <div class="ai-badge-pulse"></div>
+                AI-POWERED
+            </div>
+            <!-- User menu (populated by JS) -->
+            <div id="userMenu" class="user-menu"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Input Panel (unchanged) -->
+        <div class="panel">
+            <h2 class="panel-title">Your Wealth Blueprint</h2>
+            <div class="user-type-selector">
+                <button class="user-type-btn active" id="employeeBtn"><i class="fas fa-user-tie"></i> Employee</button>
+                <button class="user-type-btn" id="businessBtn"><i class="fas fa-briefcase"></i> Business Owner</button>
+            </div>
+            <form id="wealthForm">
+                <!-- Timeline -->
+                <div class="section">
+                    <h3 class="section-title"><i class="fas fa-crosshairs" style="color: #8b5cf6;"></i> Timeline</h3>
+                    <div class="form-grid">
+                        <div class="input-group"><label>Current Age</label><div class="input-wrapper"><i class="fas fa-chart-line input-icon"></i><input type="number" id="age" value="35" min="20" max="80"></div></div>
+                        <div class="input-group"><label>Retirement Age</label><div class="input-wrapper"><i class="fas fa-crosshairs input-icon"></i><input type="number" id="retirementAge" value="65" min="50" max="85"></div></div>
+                    </div>
+                    <div class="input-group"><label>Life Expectancy</label><div class="input-wrapper"><i class="fas fa-heart input-icon"></i><input type="number" id="lifeExpectancy" value="90" min="75" max="110"></div></div>
+                </div>
+                <!-- Lifestyle (exact same) -->
+                <div class="section">
+                    <h3 class="section-title"><i class="fas fa-sparkles" style="color: #8b5cf6;"></i> Dream Lifestyle</h3>
+                    <div class="lifestyle-card">
+                        <h4 class="card-title"><i class="fas fa-plane"></i> Travel & Adventures</h4>
+                        <div class="form-grid-3">
+                            <div class="input-group"><label>Travel Budget</label><div class="input-wrapper"><i class="fas fa-dollar-sign input-icon"></i><input type="number" id="annualTravelBudget" value="15000" step="1000"></div></div>
+                            <div class="input-group"><label>Int'l Trips</label><div class="input-wrapper"><i class="fas fa-plane input-icon"></i><input type="number" id="internationalTrips" value="2"></div></div>
+                            <div class="input-group"><label>Domestic</label><div class="input-wrapper"><i class="fas fa-plane input-icon"></i><input type="number" id="domesticTrips" value="3"></div></div>
+                        </div>
+                        <div class="input-group"><label>Travel Style</label><div class="input-wrapper"><i class="fas fa-star input-icon"></i><select id="travelStyle"><option value="budget">✈️ Budget Travel - Backpacker/Hostels</option><option value="comfort" selected>🌟 Comfort - 3-4 Star Hotels</option><option value="luxury">👑 Luxury - 5 Star + First Class</option><option value="ultra">💎 Ultra-Luxury - Private Jets</option></select></div></div>
+                    </div>
+                    <div class="lifestyle-card">
+                        <h4 class="card-title"><i class="fas fa-users"></i> Family Legacy</h4>
+                        <div class="input-group"><label>Children?</label><div class="input-wrapper"><i class="fas fa-users input-icon"></i><select id="hasChildren"><option value="no">No</option><option value="yes" selected>Yes</option></select></div></div>
+                        <div id="childrenFields">
+                            <div class="input-group"><label>Number of Children</label><div class="input-wrapper"><i class="fas fa-users input-icon"></i><input type="number" id="numberOfChildren" value="2"></div></div>
+                            <div class="form-grid">
+                                <div class="input-group"><label>College Fund Each</label><div class="input-wrapper"><i class="fas fa-dollar-sign input-icon"></i><input type="number" id="collegeFundPerChild" value="100000" step="5000"></div></div>
+                                <div class="input-group"><label>Wedding Fund Each</label><div class="input-wrapper"><i class="fas fa-dollar-sign input-icon"></i><input type="number" id="weddingFundPerChild" value="30000" step="5000"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lifestyle-card">
+                        <h4 class="card-title"><i class="fas fa-home"></i> Home & Assets</h4>
+                        <div class="form-grid">
+                            <div class="input-group"><label>Dream Home Value</label><div class="input-wrapper"><i class="fas fa-home input-icon"></i><input type="number" id="homeValue" value="750000" step="50000"></div></div>
+                            <div class="input-group"><label>Annual Maintenance</label><div class="input-wrapper"><i class="fas fa-dollar-sign input-icon"></i><input type="number" id="homeMaintenance" value="7500" step="1000"></div></div>
+                        </div>
+                        <div class="input-group"><label>Base Retirement Spending</label><div class="input-wrapper"><i class="fas fa-dollar-sign input-icon"></i><input type="number" id="retirementSpending" value="60000" step="5000"></div></div>
+                    </div>
+                </div>
+                <!-- Employee section -->
+                <div class="section" id="employeeSection">
+                    <h3 class="section-title"><i class="fas fa-user-tie" style="color: #8b5cf6;"></i> Employment</h3>
+                    <div class="input-group"><label>Annual Salary</label><div class="input-wrapper"><i class="fas fa-dollar-sign input-icon"></i><input type="number" id="salary" value="85000" step="1000"></div></div>
+                    <div class="form-grid">
+                        <div class="input-group"><label>Savings Rate</label><div class="input-wrapper"><i class="fas fa-chart-line input-icon"></i><input type="number" id="employeeSavingsRate" value="15" min="0" max="100"></div></div>
+                        <div class="input-group"><label>Employer Match</label><div class="input-wrapper"><i class="fas fa-chart-line input-icon"></i><input type="number" id="employerMatch" value="4" step="0.5"></div></div>
+                    </div>
+                </div>
+                <!-- Business section -->
+                <div class="section hidden" id="businessSection">
+                    <h3 class="section-title"><i class="fas fa-briefcase" style="color: #8b5cf6;"></i> Business</h3>
+                    <div class="input-group"><label>Annual Revenue</label><div class="input-wrapper"><i class="fas fa-dollar-sign input-icon"></i><input type="number" id="businessIncome" value="5000000" step="100000"></div></div>
+                    <div class="form-grid">
+                        <div class="input-group"><label>EBITDA Margin</label><div class="input-wrapper"><i class="fas fa-chart-line input-icon"></i><input type="number" id="ebitdaMargin" value="25" min="0" max="100"></div></div>
+                        <div class="input-group"><label>Owner Salary</label><div class="input-wrapper"><i class="fas fa-dollar-sign input-icon"></i><input type="number" id="ownerSalary" value="120000" step="10000"></div></div>
+                    </div>
+                    <div class="input-group"><label>Exit Timeline (Years)</label><div class="input-wrapper"><i class="fas fa-crosshairs input-icon"></i><input type="number" id="exitTimeline" value="10"></div></div>
+                </div>
+                <!-- Current position -->
+                <div class="section">
+                    <h3 class="section-title"><i class="fas fa-dollar-sign" style="color: #8b5cf6;"></i> Current Position</h3>
+                    <div class="input-group"><label>Current Savings</label><div class="input-wrapper"><i class="fas fa-dollar-sign input-icon"></i><input type="number" id="currentSavings" value="125000" step="5000"></div></div>
+                </div>
+                <button type="button" class="calculate-btn" id="calculateBtn"><i class="fas fa-brain"></i> Generate TWI WealthPlan™</button>
+                <!-- NEW: Save Plan Button (appears when logged in) -->
+                <button type="button" class="calculate-btn" id="savePlanBtn" style="margin-top: 16px; background: linear-gradient(135deg, #10b981, #059669);">
+                    <i class="fas fa-cloud-upload-alt"></i> Save My Plan
+                </button>
+            </form>
+        </div>
+
+        <!-- Results Panel (unchanged) -->
+        <div class="panel">
+            <div class="results-header">
+                <div class="ai-powered-badge"><i class="fas fa-sparkles"></i> TWI AI™ PLAN</div>
+                <h2 class="panel-title" style="margin-bottom: 0;" id="resultsTitle">Your Wealth Trajectory</h2>
+            </div>
+            <div class="big-number-container">
+                <div class="big-number-label">Wealth Target</div>
+                <div class="big-number" id="bigNumber">$3.2M</div>
+                <div class="big-number-sub">AI-optimized retirement portfolio</div>
+            </div>
+            <div class="ai-insights-container">
+                <h4 class="ai-insights-title"><i class="fas fa-brain"></i> AI Insights</h4>
+                <div id="insightsList"></div>
+            </div>
+            <div class="progress-container">
+                <div class="progress-header"><span class="progress-title">Progress to Goal</span><span class="progress-percent" id="progressPercent">65%</span></div>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:65%;"></div></div>
+            </div>
+            <div class="metrics-grid">
+                <div class="metric-card"><div class="metric-value" id="projectedSavings">$2.1M</div><div class="metric-label">Projected Wealth</div></div>
+                <div class="metric-card"><div class="metric-value" id="wealthGap">$1.1M</div><div class="metric-label">Wealth Gap</div></div>
+                <div class="metric-card"><div class="metric-value" id="monthlyNeeded">$2,450/mo</div><div class="metric-label">Additional Savings</div></div>
+                <div class="metric-card"><div class="metric-value" id="currentSavingsRate">$12,750/yr</div><div class="metric-label">Current Savings</div></div>
+            </div>
+            <div class="breakdown">
+                <h4 class="breakdown-title"><i class="fas fa-sparkles"></i> Lifestyle Breakdown</h4>
+                <div id="breakdownList"></div>
+            </div>
+            <div class="breakdown hidden" id="businessBreakdown">
+                <h4 class="breakdown-title"><i class="fas fa-briefcase"></i> Business Exit Analysis</h4>
+                <div id="businessBreakdownList"></div>
+            </div>
+            <div class="breakdown hidden" id="optimizationComparison" style="background: linear-gradient(135deg, rgba(16,185,129,0.08), rgba(34,197,94,0.05)); border:1px solid rgba(16,185,129,0.2);">
+                <h4 class="breakdown-title" style="color:#10b981;"><i class="fas fa-magic"></i> AI Optimization Changes</h4>
+                <div id="optimizationComparisonList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="rights">TWI WealthPlan AI™. All rights reserved.</div>
+        <div class="twi">TWI WealthPlan AI™ is a proprietary tool developed by Triworld Inc.</div>
+    </footer>
+</div>
+
+<script>
+    // ========== SUPABASE CONFIGURATION ==========
+    // 🔐 YOUR SUPABASE CREDENTIALS - ALREADY INSERTED AND READY TO USE!
+    const SUPABASE_URL = 'https://vatnsimpwrxekvktrqdj.supabase.co';   // ✅ YOUR ACTUAL URL
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZhdG5zaW1wd3J4ZWt2a3RycWRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5NTYwNTYsImV4cCI6MjA4NjUzMjA1Nn0.k-F4JQXBKxwX5xoLu79JKrfyjP35DVKIbU48z0k0x0s'; // ✅ YOUR ACTUAL ANON KEY
+    
+    // Initialize Supabase client
+    const supabase = supabaseClient ? supabaseClient.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // ========== GLOBAL STATE ==========
+    let currentUser = null;
+    let userType = 'employee';
+    let hasChildren = true;
+    let currentResults = null;
+    
+    // ========== DOM ELEMENTS ==========
+    const authScreen = document.getElementById('authScreen');
+    const appWrapper = document.getElementById('appWrapper');
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const authMessage = document.getElementById('authMessage');
+    
+    // ========== AUTH UI SWITCHING ==========
+    document.getElementById('switchToSignup').addEventListener('click', () => {
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'block';
+        authMessage.style.display = 'none';
+        authMessage.className = 'auth-message';
+    });
+    document.getElementById('switchToLogin').addEventListener('click', () => {
+        signupForm.style.display = 'none';
+        loginForm.style.display = 'block';
+        authMessage.style.display = 'none';
+        authMessage.className = 'auth-message';
+    });
+    
+    // ========== SHOW MESSAGE ==========
+    function showAuthMessage(msg, type = 'error') {
+        authMessage.textContent = msg;
+        authMessage.className = 'auth-message ' + type;
+        authMessage.style.display = 'block';
+    }
+    
+    // ========== SIGN UP (INVITE ONLY) ==========
+    document.getElementById('signupBtn').addEventListener('click', async () => {
+        const email = document.getElementById('signupEmail').value.trim();
+        const password = document.getElementById('signupPassword').value.trim();
+        
+        if (!email || !password) {
+            showAuthMessage('Email and password required', 'error');
+            return;
+        }
+        if (password.length < 6) {
+            showAuthMessage('Password must be at least 6 characters', 'error');
+            return;
+        }
+        
+        try {
+            // For invite-only: We'll attempt signup but you should disable public signups in Supabase dashboard
+            // and only add users manually via Authentication > Users > Invite user
+            showAuthMessage('⏳ TWI WealthPlan is invite‑only. Please contact your admin to get access, or use the "Add User" button in Supabase dashboard.', 'error');
+            
+            // If you want to allow signups but then manually approve, uncomment this:
+            /*
+            const { data, error } = await supabase.auth.signUp({
+                email, password,
+                options: { emailRedirectTo: window.location.origin }
+            });
+            if (error) throw error;
+            showAuthMessage('✅ Invite requested! Admin will grant access.', 'success');
+            setTimeout(() => { loginForm.style.display = 'block'; signupForm.style.display = 'none'; }, 2000);
+            */
+        } catch (err) {
+            showAuthMessage(err.message, 'error');
+        }
+    });
+    
+    // ========== LOG IN ==========
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+        const email = document.getElementById('authEmail').value.trim();
+        const password = document.getElementById('authPassword').value.trim();
+        
+        if (!email || !password) {
+            showAuthMessage('Email and password required', 'error');
+            return;
+        }
+        
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email, password
+            });
+            if (error) throw error;
+            
+            // success -> auth state change will handle it
+        } catch (err) {
+            showAuthMessage(err.message, 'error');
+        }
+    });
+    
+    // ========== LOGOUT ==========
+    async function logout() {
+        await supabase.auth.signOut();
+    }
+    
+    // ========== USER MENU ==========
+    function updateUserMenu(user) {
+        const menu = document.getElementById('userMenu');
+        if (user) {
+            menu.innerHTML = `
+                <span class="user-email"><i class="fas fa-user-circle"></i> ${user.email}</span>
+                <button class="logout-btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            `;
+            document.getElementById('logoutBtn').addEventListener('click', logout);
+        } else {
+            menu.innerHTML = '';
+        }
+    }
+    
+    // ========== AUTH STATE LISTENER ==========
+    supabase.auth.onAuthStateChange((event, session) => {
+        if (session) {
+            // User is authenticated
+            currentUser = session.user;
+            updateUserMenu(currentUser);
+            authScreen.style.display = 'none';
+            appWrapper.classList.add('visible');
+            // Load user's saved plan if exists
+            loadUserPlan(currentUser.id);
+        } else {
+            // Not logged in
+            currentUser = null;
+            updateUserMenu(null);
+            authScreen.style.display = 'flex';
+            appWrapper.classList.remove('visible');
+            // reset forms
+            loginForm.style.display = 'block';
+            signupForm.style.display = 'none';
+            authMessage.style.display = 'none';
+        }
+    });
+    
+    // ========== LOAD USER'S SAVED PLAN FROM SUPABASE ==========
+    async function loadUserPlan(userId) {
+        try {
+            const { data, error } = await supabase
+                .from('user_plans')
+                .select('*')
+                .eq('user_id', userId)
+                .order('created_at', { ascending: false })
+                .limit(1)
+                .single();
+                
+            if (error && error.code !== 'PGRST116') throw error; // no rows found is fine
+            
+            if (data && data.plan_data) {
+                // Restore form values from saved plan
+                const plan = data.plan_data;
+                Object.keys(plan).forEach(key => {
+                    const el = document.getElementById(key);
+                    if (el) el.value = plan[key];
+                });
+                // Recalculate
+                setTimeout(calculate, 300);
+                showAuthMessage('✅ Your saved plan has been loaded.', 'success');
+                setTimeout(() => { authMessage.style.display = 'none'; }, 2000);
+            }
+        } catch (err) {
+            console.warn('Could not load plan:', err.message);
+        }
+    }
+    
+    // ========== SAVE CURRENT PLAN ==========
+    async function saveCurrentPlan() {
+        if (!currentUser) {
+            alert('You must be logged in to save.');
+            return;
+        }
+        
+        // Collect all input values
+        const inputs = ['age','retirementAge','lifeExpectancy','annualTravelBudget','internationalTrips','domesticTrips',
+            'travelStyle','hasChildren','numberOfChildren','collegeFundPerChild','weddingFundPerChild','homeValue',
+            'homeMaintenance','retirementSpending','salary','employeeSavingsRate','employerMatch','businessIncome',
+            'ebitdaMargin','ownerSalary','exitTimeline','currentSavings'];
+        
+        const planData = {};
+        inputs.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) planData[id] = el.value;
+        });
+        
+        // Add results snapshot
+        if (currentResults) {
+            planData.savedResults = {
+                totalNeed: currentResults.totalNeed,
+                projectedSavings: currentResults.projectedSavings,
+                gap: currentResults.gap,
+                progress: currentResults.progress,
+                annualLifestyle: currentResults.annualLifestyle
+            };
+        }
+        
+        const calculatingOverlay = document.getElementById('calculatingOverlay');
+        calculatingOverlay.classList.add('active');
+        document.querySelector('.calculating-text').textContent = 'Saving your plan...';
+        
+        try {
+            const { error } = await supabase
+                .from('user_plans')
+                .upsert({
+                    user_id: currentUser.id,
+                    plan_data: planData,
+                    updated_at: new Date()
+                }, { onConflict: 'user_id' });
+                
+            if (error) throw error;
+            
+            alert('✅ Your WealthPlan has been saved!');
+        } catch (err) {
+            alert('❌ Save failed: ' + err.message);
+        } finally {
+            calculatingOverlay.classList.remove('active');
+            document.querySelector('.calculating-text').textContent = 'TWI WealthPlan AI™ is analyzing...';
+        }
+    }
+    
+    // ========== EXISTING APP CODE ==========
+    window.addEventListener('DOMContentLoaded', function() {
+        // Existing DOM elements from your original script
+        const employeeBtn = document.getElementById('employeeBtn');
+        const businessBtn = document.getElementById('businessBtn');
+        const employeeSection = document.getElementById('employeeSection');
+        const businessSection = document.getElementById('businessSection');
+        const hasChildrenSelect = document.getElementById('hasChildren');
+        const childrenFields = document.getElementById('childrenFields');
+        const calculateBtn = document.getElementById('calculateBtn');
+        const savePlanBtn = document.getElementById('savePlanBtn');
+        
+        // User type switching
+        if (employeeBtn) employeeBtn.addEventListener('click', () => {
+            userType = 'employee';
+            employeeBtn.classList.add('active');
+            businessBtn.classList.remove('active');
+            employeeSection.classList.remove('hidden');
+            businessSection.classList.add('hidden');
+            document.getElementById('resultsTitle').textContent = 'Your Wealth Trajectory';
+            calculate();
+        });
+        
+        if (businessBtn) businessBtn.addEventListener('click', () => {
+            userType = 'business';
+            businessBtn.classList.add('active');
+            employeeBtn.classList.remove('active');
+            businessSection.classList.remove('hidden');
+            employeeSection.classList.add('hidden');
+            document.getElementById('resultsTitle').textContent = 'Exit & Wealth Strategy';
+            calculate();
+        });
+        
+        // Children toggle
+        if (hasChildrenSelect) hasChildrenSelect.addEventListener('change', (e) => {
+            hasChildren = e.target.value === 'yes';
+            childrenFields.classList.toggle('hidden', !hasChildren);
+            calculate();
+        });
+        
+        // Save plan button
+        if (savePlanBtn) savePlanBtn.addEventListener('click', saveCurrentPlan);
+        
+        // Make handleInsightAction global
+        window.handleInsightAction = function(actionType) {
+            switch(actionType) {
+                case 'optimize': optimizePlan(); break;
+                case 'explore': alert('💡 Wealth Building Opportunities:\n\n• Consider increasing retirement contributions\n• Explore tax-advantaged investment accounts\n• Look into real estate investments\n• Consider diversifying into index funds'); break;
+                case 'strategies': alert('📈 Growth Strategies:\n\n• Increase income through side hustles\n• Reduce discretionary spending by 15-20%\n• Maximize tax deductions\n• Consider career advancement opportunities'); break;
+                case 'roadmap': alert('🗺️ Business Growth Roadmap:\n\n• Focus on improving profit margins\n• Increase revenue per employee\n• Reduce customer concentration risk\n• Build scalable systems'); break;
+                case 'tax': alert('💰 Tax Optimization Strategies:\n\n• Max out 401(k) contributions: $23,000/yr\n• Contribute to HSA: $4,150/yr\n• Consider Roth IRA: $7,000/yr\n• Estimated annual savings: $12K-$18K'); break;
+                default: alert('This feature is coming soon!');
+            }
+        };
+        
+        // Re-initialize calculate and auto-calc
+        const inputs = document.querySelectorAll('input, select');
+        inputs.forEach(input => {
+            input.removeEventListener('change', calculate);
+            input.addEventListener('change', () => { setTimeout(calculate, 300); });
+        });
+        
+        if (calculateBtn) calculateBtn.addEventListener('click', calculate);
+        
+        // Initial calculation (will run when app is visible)
+        setTimeout(calculate, 500);
+    });
+    
+    // ========== FORMATTING FUNCTIONS ==========
+    function formatCurrency(amount) {
+        if (amount >= 1000000) return `$${(amount / 1000000).toFixed(1)}M`;
+        if (amount >= 1000) return `$${(amount / 1000).toFixed(0)}K`;
+        return `$${Math.round(amount).toLocaleString()}`;
+    }
+    function formatFull(amount) {
+        return `$${Math.round(amount).toLocaleString()}`;
+    }
+    
+    // ========== OPTIMIZE PLAN ==========
+    async function optimizePlan() {
+        if (!currentResults || currentResults.gap <= 0) {
+            alert('Your plan is already optimized! You\'re on track to meet your goals.');
+            return;
+        }
+        const beforeValues = {
+            gap: currentResults.gap,
+            progress: currentResults.progress,
+            projectedSavings: currentResults.projectedSavings,
+            monthlyNeeded: currentResults.monthlyNeeded
+        };
+        const overlay = document.getElementById('calculatingOverlay');
+        overlay.classList.add('active');
+        document.querySelector('.calculating-text').textContent = 'AI is optimizing your plan...';
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        const monthlyGap = currentResults.monthlyNeeded;
+        let optimizationChanges = [];
+        if (userType === 'employee') {
+            const currentSalary = parseFloat(document.getElementById('salary').value);
+            const currentRate = parseFloat(document.getElementById('employeeSavingsRate').value);
+            const currentMonthlySavings = (currentSalary * (currentRate / 100)) / 12;
+            const targetMonthlySavings = currentMonthlySavings + monthlyGap;
+            const targetAnnualSavings = targetMonthlySavings * 12;
+            const newSavingsRate = Math.min(50, Math.round((targetAnnualSavings / currentSalary) * 100));
+            optimizationChanges.push({ field:'Savings Rate', before:currentRate+'%', after:newSavingsRate+'%', change:'+'+(newSavingsRate-currentRate)+'%' });
+            optimizationChanges.push({ field:'Monthly Savings', before:formatFull(currentMonthlySavings), after:formatFull(targetMonthlySavings), change:'+'+formatFull(monthlyGap) });
+            document.getElementById('employeeSavingsRate').value = newSavingsRate;
+            alert(`✨ AI Optimization Complete!\n\nYour savings rate has been increased from ${currentRate}% to ${newSavingsRate}%.\n\nThis will add ${formatFull(monthlyGap)}/month to your savings and close your wealth gap!\n\nScroll down to see the detailed comparison.`);
+        } else {
+            const currentSalary = parseFloat(document.getElementById('ownerSalary').value);
+            const currentRate = 20;
+            const currentMonthlySavings = (currentSalary * (currentRate / 100)) / 12;
+            const targetMonthlySavings = currentMonthlySavings + monthlyGap;
+            const targetAnnualSavings = targetMonthlySavings * 12;
+            const newSavingsRate = Math.min(50, Math.round((targetAnnualSavings / currentSalary) * 100));
+            optimizationChanges.push({ field:'Owner Savings Rate', before:currentRate+'%', after:newSavingsRate+'% (Recommended)', change:'+'+(newSavingsRate-currentRate)+'%' });
+            optimizationChanges.push({ field:'Monthly Savings', before:formatFull(currentMonthlySavings), after:formatFull(targetMonthlySavings), change:'+'+formatFull(monthlyGap) });
+            alert(`✨ AI Optimization Complete!\n\nRecommended: Increase owner salary savings from ${currentRate}% to ${newSavingsRate}%\n\nThis will close your ${formatCurrency(currentResults.gap)} wealth gap!\n\nScroll down to see the detailed comparison.`);
+        }
+        document.querySelector('.calculating-text').textContent = 'TWI WealthPlan AI™ is analyzing...';
+        overlay.classList.remove('active');
+        await calculate();
+        showOptimizationComparison(beforeValues, currentResults, optimizationChanges);
+    }
+    
+    function showOptimizationComparison(before, after, changes) {
+        const comparisonSection = document.getElementById('optimizationComparison');
+        const comparisonList = document.getElementById('optimizationComparisonList');
+        let html = `<div style="background:rgba(16,185,129,0.1); border-radius:12px; padding:16px; margin-bottom:20px;"><div style="font-size:14px; font-weight:700; color:#10b981; margin-bottom:8px; text-transform:uppercase; letter-spacing:1px;"><i class="fas fa-check-circle"></i> Optimization Applied</div><div style="font-size:13px; color:rgba(228,230,235,0.8);">AI has automatically adjusted your plan to close the wealth gap</div></div>`;
+        html += `<div style="margin-bottom:24px;"><div style="font-size:15px; font-weight:700; color:#e4e6eb; margin-bottom:16px;"><i class="fas fa-sync-alt"></i> What Changed:</div>`;
+        changes.forEach(change => { html += `<div class="breakdown-item" style="background:rgba(0,0,0,0.2); border-radius:8px; padding:12px; margin-bottom:8px;"><div style="width:100%;"><div style="font-size:13px; color:rgba(228,230,235,0.6); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.5px;">${change.field}</div><div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;"><div><span style="color:rgba(228,230,235,0.5); font-size:13px;">Before: </span><span style="color:#ef4444; font-weight:600; font-size:15px;">${change.before}</span></div><div><i class="fas fa-arrow-right" style="color:#8b5cf6; font-size:12px;"></i></div><div><span style="color:rgba(228,230,235,0.5); font-size:13px;">After: </span><span style="color:#10b981; font-weight:600; font-size:15px;">${change.after}</span></div><div style="background:linear-gradient(135deg,#10b981,#34d399); color:white; padding:4px 12px; border-radius:100px; font-size:12px; font-weight:700;">${change.change}</div></div></div></div>`; });
+        html += `</div><div><div style="font-size:15px; font-weight:700; color:#e4e6eb; margin-bottom:16px;"><i class="fas fa-chart-line"></i> Impact on Your Plan:</div><div class="breakdown-item"><span class="breakdown-label">Wealth Gap</span><div style="display:flex; align-items:center; gap:12px;"><span style="color:#ef4444; text-decoration:line-through; opacity:0.6;">${formatCurrency(before.gap)}</span><i class="fas fa-arrow-right" style="color:#8b5cf6; font-size:12px;"></i><span style="color:#10b981; font-weight:700; font-size:16px;">${formatCurrency(after.gap)}</span></div></div><div class="breakdown-item"><span class="breakdown-label">Progress to Goal</span><div style="display:flex; align-items:center; gap:12px;"><span style="color:#ef4444; text-decoration:line-through; opacity:0.6;">${before.progress}%</span><i class="fas fa-arrow-right" style="color:#8b5cf6; font-size:12px;"></i><span style="color:#10b981; font-weight:700; font-size:16px;">${after.progress}%</span></div></div><div class="breakdown-item"><span class="breakdown-label">Projected Wealth</span><div style="display:flex; align-items:center; gap:12px;"><span style="opacity:0.6;">${formatCurrency(before.projectedSavings)}</span><i class="fas fa-arrow-right" style="color:#8b5cf6; font-size:12px;"></i><span style="color:#10b981; font-weight:700; font-size:16px;">${formatCurrency(after.projectedSavings)}</span></div></div><div class="breakdown-item"><span class="breakdown-label">Monthly Savings Needed</span><div style="display:flex; align-items:center; gap:12px;"><span style="color:#ef4444; text-decoration:line-through; opacity:0.6;">${formatFull(before.monthlyNeeded)}/mo</span><i class="fas fa-arrow-right" style="color:#8b5cf6; font-size:12px;"></i><span style="color:#10b981; font-weight:700; font-size:16px;">${formatFull(after.monthlyNeeded)}/mo</span></div></div></div>`;
+        comparisonList.innerHTML = html;
+        comparisonSection.classList.remove('hidden');
+        setTimeout(() => { comparisonSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }, 300);
+    }
+    
+    // ========== GENERATE INSIGHTS ==========
+    function generateInsights(results) {
+        const insights = [];
+        if (results.gap > 0) insights.push({ type:'warning', icon:'fa-bolt', title:'Wealth Gap Detected', message:`Our AI analysis shows a ${formatCurrency(results.gap)} gap. Recommended action: increase savings by ${formatFull(results.monthlyNeeded)}/month.`, action:'Optimize Plan', actionType:'optimize' });
+        else insights.push({ type:'success', icon:'fa-check-circle', title:'On Track for Success', message:'Your current trajectory exceeds your retirement goals. Consider additional wealth-building opportunities.', action:'Explore Options', actionType:'explore' });
+        if (results.progress < 50) insights.push({ type:'critical', icon:'fa-exclamation-triangle', title:'Accelerated Action Needed', message:'AI models suggest diversifying income streams or reducing discretionary spending by 15-20%.', action:'See Strategies', actionType:'strategies' });
+        if (userType === 'business' && results.businessData && !results.businessData.isSellable) insights.push({ type:'info', icon:'fa-sparkles', title:'Business Optimization Path', message:'AI recommends focusing on EBITDA margin improvement to increase valuation by 40-60%.', action:'View Roadmap', actionType:'roadmap' });
+        insights.push({ type:'ai', icon:'fa-brain', title:'Tax Optimization Opportunity', message:'AI detected potential tax savings of $12K-$18K annually through strategic retirement account contributions.', action:'Calculate Savings', actionType:'tax' });
+        return insights;
+    }
+    
+    // ========== CALCULATE FUNCTION ==========
+    async function calculate() {
+        const overlay = document.getElementById('calculatingOverlay');
+        overlay.classList.add('active');
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        const age = parseInt(document.getElementById('age').value);
+        const retirementAge = parseInt(document.getElementById('retirementAge').value);
+        const lifeExpectancy = parseInt(document.getElementById('lifeExpectancy').value);
+        const currentSavings = parseFloat(document.getElementById('currentSavings').value);
+        const annualTravelBudget = parseFloat(document.getElementById('annualTravelBudget').value);
+        const travelStyle = document.getElementById('travelStyle').value;
+        const collegeFundPerChild = hasChildren ? parseFloat(document.getElementById('collegeFundPerChild').value) : 0;
+        const weddingFundPerChild = hasChildren ? parseFloat(document.getElementById('weddingFundPerChild').value) : 0;
+        const numberOfChildren = hasChildren ? parseInt(document.getElementById('numberOfChildren').value) : 0;
+        const homeValue = parseFloat(document.getElementById('homeValue').value);
+        const homeMaintenance = parseFloat(document.getElementById('homeMaintenance').value);
+        const retirementSpending = parseFloat(document.getElementById('retirementSpending').value);
+        
+        const inflation = 0.03, investmentReturn = 0.07;
+        const yearsToRetirement = retirementAge - age;
+        const travelMultipliers = { budget:0.7, comfort:1.0, luxury:2.0, ultra:4.0 };
+        const adjustedTravel = annualTravelBudget * travelMultipliers[travelStyle];
+        const annualLifestyle = retirementSpending + adjustedTravel + homeMaintenance + 10000;
+        const childrenCosts = (collegeFundPerChild + weddingFundPerChild) * numberOfChildren;
+        const emergencyFund = annualLifestyle;
+        const oneTimeCosts = childrenCosts + emergencyFund + 100000 + (homeValue * 0.5);
+        const inflationAdjustedSpending = annualLifestyle * Math.pow(1+inflation, yearsToRetirement);
+        const portfolioNeed = inflationAdjustedSpending / 0.04;
+        const inflationAdjustedOnetime = oneTimeCosts * Math.pow(1+inflation, yearsToRetirement);
+        const totalNeed = portfolioNeed + inflationAdjustedOnetime;
+        
+        let projectedSavings, annualSavings, businessData = null;
+        if (userType === 'employee') {
+            const salary = parseFloat(document.getElementById('salary').value);
+            const savingsRate = parseFloat(document.getElementById('employeeSavingsRate').value) / 100;
+            const employerMatch = parseFloat(document.getElementById('employerMatch').value) / 100;
+            annualSavings = salary * (savingsRate + employerMatch);
+            const futureCurrentSavings = currentSavings * Math.pow(1+investmentReturn, yearsToRetirement);
+            const futureAnnualSavings = annualSavings * ((Math.pow(1+investmentReturn, yearsToRetirement)-1)/investmentReturn);
+            projectedSavings = futureCurrentSavings + futureAnnualSavings;
+        } else {
+            const businessIncome = parseFloat(document.getElementById('businessIncome').value);
+            const ebitdaMargin = parseFloat(document.getElementById('ebitdaMargin').value)/100;
+            const ownerSalary = parseFloat(document.getElementById('ownerSalary').value);
+            const exitTimeline = parseInt(document.getElementById('exitTimeline').value);
+            const ebitda = businessIncome * ebitdaMargin;
+            const rpe = businessIncome / 20;
+            const isSellable = businessIncome >= 75000000 && rpe >= 250000 && ebitdaMargin >= 0.25;
+            const valuationMultiple = isSellable ? 5.0 : rpe >= 150000 ? 3.5 : 2.0;
+            const businessValuation = ebitda * valuationMultiple;
+            const futureValuation = businessValuation * Math.pow(1.05, exitTimeline);
+            const saleProceeds = futureValuation * 0.75;
+            annualSavings = ownerSalary * 0.2;
+            const futureCurrentSavings = currentSavings * Math.pow(1+investmentReturn, yearsToRetirement);
+            const futureSalarySavings = annualSavings * ((Math.pow(1+investmentReturn, yearsToRetirement)-1)/investmentReturn);
+            const yearsAfterSale = Math.max(0, yearsToRetirement - exitTimeline);
+            const futureSale = saleProceeds * Math.pow(1+investmentReturn, yearsAfterSale);
+            projectedSavings = futureCurrentSavings + futureSalarySavings + (exitTimeline <= yearsToRetirement ? futureSale : 0);
+            businessData = { businessValuation, futureValuation, saleProceeds, isSellable };
+        }
+        
+        const gap = Math.max(0, totalNeed - projectedSavings);
+        const progress = Math.min(100, Math.round((projectedSavings / totalNeed) * 100));
+        const monthlyRate = investmentReturn/12;
+        const months = yearsToRetirement * 12;
+        const monthlyNeeded = gap > 0 && monthlyRate > 0 ? gap * (monthlyRate / (Math.pow(1+monthlyRate, months)-1)) : 0;
+        
+        currentResults = { totalNeed, projectedSavings, gap, progress, monthlyNeeded, annualSavings, annualLifestyle, childrenCosts, adjustedTravel, emergencyFund, businessData };
+        updateUI(currentResults);
+        overlay.classList.remove('active');
+    }
+    
+    // ========== UPDATE UI ==========
+    function updateUI(results) {
+        document.getElementById('bigNumber').textContent = formatCurrency(results.totalNeed);
+        const insights = generateInsights(results);
+        const insightsList = document.getElementById('insightsList');
+        insightsList.innerHTML = insights.map((insight,i) => `<div class="insight-card ${insight.type}"><div class="insight-icon"><i class="fas ${insight.icon}"></i></div><div class="insight-content"><div class="insight-title">${insight.title}</div><div class="insight-message">${insight.message}</div><div class="insight-action" data-action="${insight.actionType}" onclick="handleInsightAction('${insight.actionType}')">${insight.action} <i class="fas fa-arrow-right"></i></div></div></div>`).join('');
+        document.getElementById('progressPercent').textContent = `${results.progress}%`;
+        document.getElementById('progressFill').style.width = `${results.progress}%`;
+        document.getElementById('projectedSavings').textContent = formatCurrency(results.projectedSavings);
+        document.getElementById('wealthGap').textContent = formatCurrency(results.gap);
+        document.getElementById('monthlyNeeded').textContent = formatFull(results.monthlyNeeded)+'/mo';
+        document.getElementById('currentSavingsRate').textContent = formatFull(results.annualSavings)+'/yr';
+        
+        let breakdownHTML = `<div class="breakdown-item"><span class="breakdown-label"><i class="fas fa-plane"></i> Annual Travel</span><span class="breakdown-value">${formatFull(results.adjustedTravel)}</span></div>`;
+        if (hasChildren && results.childrenCosts > 0) breakdownHTML += `<div class="breakdown-item"><span class="breakdown-label"><i class="fas fa-users"></i> Children's Future</span><span class="breakdown-value">${formatFull(results.childrenCosts)}</span></div>`;
+        breakdownHTML += `<div class="breakdown-item"><span class="breakdown-label"><i class="fas fa-heart"></i> Emergency Fund</span><span class="breakdown-value">${formatFull(results.emergencyFund)}</span></div><div class="breakdown-item" style="border-top:1px solid rgba(255,255,255,0.1); margin-top:12px; padding-top:16px;"><span class="breakdown-label" style="font-weight:700; color:#e4e6eb;"><i class="fas fa-dollar-sign"></i> Total Annual Lifestyle</span><span class="breakdown-value" style="color:#8b5cf6; font-weight:900;">${formatFull(results.annualLifestyle)}</span></div>`;
+        document.getElementById('breakdownList').innerHTML = breakdownHTML;
+        
+        if (userType === 'business' && results.businessData) {
+            const businessBreakdown = document.getElementById('businessBreakdown');
+            const businessBreakdownList = document.getElementById('businessBreakdownList');
+            businessBreakdown.classList.remove('hidden');
+            businessBreakdownList.innerHTML = `<div class="breakdown-item"><span class="breakdown-label">Current Valuation</span><span class="breakdown-value">${formatCurrency(results.businessData.businessValuation)}</span></div><div class="breakdown-item"><span class="breakdown-label">Future Sale Proceeds</span><span class="breakdown-value">${formatCurrency(results.businessData.saleProceeds)}</span></div><div class="breakdown-item"><span class="breakdown-label">AI Sellability Score</span><span class="breakdown-value" style="color:${results.businessData.isSellable?'#10b981':'#f59e0b'}">${results.businessData.isSellable?'✓ High Value':'○ Building'}</span></div>`;
+        } else document.getElementById('businessBreakdown').classList.add('hidden');
+    }
+    
+    // ========== CHECK FOR EXISTING SESSION ==========
+    supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) {
+            currentUser = session.user;
+            updateUserMenu(currentUser);
+            authScreen.style.display = 'none';
+            appWrapper.classList.add('visible');
+            loadUserPlan(currentUser.id);
+            setTimeout(calculate, 500);
+        }
+    });
+</script>
+
+<!-- Fallback for supabase global -->
+<script>
+    window.supabaseClient = supabase;
+</script>
